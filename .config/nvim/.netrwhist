@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/charlie/node/CoachDirect/client/src'
+let g:netrw_dirhist_2='/home/charlie/node/CoachDirect/client/src/layouts'
+let g:netrw_dirhist_3='/home/charlie/.config/sxhkd'
