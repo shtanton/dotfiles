@@ -124,6 +124,7 @@ super + z
 
 #Go to sleep
 super + shift + q
+	pkill polybar
 	systemctl suspend
 
 #Take screenshot
