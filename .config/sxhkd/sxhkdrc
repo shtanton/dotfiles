@@ -59,8 +59,8 @@ super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
+super + {_,shift + }{p,b,comma,period}
+	bspc node -{f,s} @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
 super + {_,shift + }c
@@ -124,8 +124,7 @@ super + z
 
 #Go to sleep
 super + shift + q
-	pkill polybar
-	systemctl suspend
+	/home/charlie/.scripts/suspend.sh
 
 #Take screenshot
 @super + shift + s
@@ -138,3 +137,7 @@ super + r
 #Toggle polybar
 hyper + b
 	/home/charlie/.scripts/togglePolybar.sh
+
+#Rotate node
+hyper + r
+	bspc node -R 90

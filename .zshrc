@@ -16,3 +16,7 @@ export PATH="$PATH:$(yarn global bin):$(ruby -r rubygems -e 'puts Gem.user_dir')
 export VISUAL="nvim"
 export XDG_CONFIG_HOME="$HOME/.config"
 eval $(opam config env)
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
