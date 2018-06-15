@@ -1,0 +1,2 @@
+pkill polybar
+systemctl suspend
