@@ -12,4 +12,4 @@ pacmd list-sink-inputs |\
 desc=$(pacmd list-sinks |\
 	awk '/\*/{x=1}x&&/device\.description/{print $3; x=0}')
 
-paplay ~/.sounds/to-the-point.ogg
+#paplay ~/.sounds/to-the-point.ogg

@@ -31,7 +31,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'gregsexton/gitv'
 Plug 'jiangmiao/auto-pairs'
-Plug 'alvan/vim-closetag'
 Plug 'w0rp/ale'
 Plug 'arcticicestudio/nord-vim'
 Plug 'autozimu/LanguageClient-neovim', {
@@ -40,7 +39,9 @@ Plug 'autozimu/LanguageClient-neovim', {
 			\ }
 
 Plug 'roxma/vim-hug-neovim-rpc', !has('nvim') ? {} : { 'on': [] }
-Plug 'roxma/nvim-completion-manager'
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+Plug 'reasonml-editor/vim-reason-plus'
+Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
@@ -63,7 +64,6 @@ set si
 set listchars=tab:\|\ 
 set list
 colorscheme nord
-set clipboard=unnamedplus
 autocmd BufRead,BufNewFile _oasis set expandtab
 
 nnoremap <c-e> 5<c-e>
@@ -71,9 +71,6 @@ nnoremap <c-y> 5<c-y>
 let mapleader = " "
 nnoremap 0 ^
 nnoremap <leader>w :ArgWrap<CR>
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
@@ -94,26 +91,25 @@ let g:jsx_ext_required = 0
 let g:UltiSnipsExpandTrigger = '<c-f>'
 let g:UltiSnipsJumpForwardTrigger = '<c-f>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-b>'
-let g:UltiSnipsSnippetsDir = $HOME . '/.vim/UltiSnips'
+let g:UltiSnipsSnippetsDir = $HOME . '/.config/nvim/UltiSnips'
 let g:UltiSnipsSnippetDirectories = [g:UltiSnipsSnippetsDir]
 let g:UltiSnipsUsePythonVersion = 3
 
-let g:syntastic_javascript_checkers = ['eslint']
-
-let g:argwrap_tail_comma = 1
-
 let g:AutoPairsFlyMode = 1
-
-let g:closetag_filenames = '*.html,*.js,*.jsx'
-let g:closetag_xhtml_filenames = '*.js'
-let g:closetag_emptyTags_caseSensitive = 1
 
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
 
+let g:deoplete#enable_at_startup = 1
+
 let g:LanguageClient_autoStart = 1
-let g:LanguageClient_serverCommands = {}
-let g:LanguageClient_serverCommands['javascript'] = ['javascript-typescript-stdio']
-let g:LanguageClient_serverCommands["javascript.jsx"] = ['javascript-typescript-stdio']
+let g:LanguageClient_settingsPath = $HOME . "/.config/nvim/languageSettings.json"
+let g:LanguageClient_serverCommands = {
+	\'reason': ['ocaml-language-server', '--stdio'],
+	\'ocaml': ['ocaml-language-server', '--stdio'],
+	\'javascript': ['javascript-typescript-stdio'],
+	\'javascript.jsx': ['javascript-typescript-stdio'],
+	\'typescript': ['javascript-typescript-stdio'],
+	\}

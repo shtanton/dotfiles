@@ -2,6 +2,7 @@
 monitor = DP-2
 modules-center = date
 modules-left = bspwm arrow1 network
+modules-right = arrow2 mariadb httpd
 
 background = #2E3440
 
@@ -9,7 +10,7 @@ font-0 = "Fira Code:size=12;4"
 font-1 = "Font Awesome 5 Free:size=12;3"
 font-2 = "Font Awesome 5 Free:style=Solid,size=12;3"
 font-3 = "Font Awesome 5 Brands;3"
-font-4 = "Fira Code:size=16;4"
+font-4 = "Fira Code:size=19;5"
 
 [bar/second]
 monitor = DP-0
@@ -74,8 +75,33 @@ type = internal/network
 interface = enp0s31f6
 label-connected =  %upspeed%  %downspeed%
 
+[module/httpd]
+type = custom/script
+exec = /home/charlie/.scripts/getColour.sh mariadb.service
+format = <label>
+format-padding = 1
+label = %{F%output%}
+click-left = /home/charlie/.scripts/toggleService.sh mariadb.service
+interval = 1
+format-background = #81A1C1
+
+[module/mariadb]
+type = custom/script
+exec = /home/charlie/.scripts/getColour.sh httpd.service
+format = <label>
+format-padding = 1
+label = %{F%output%}
+click-left = /home/charlie/.scripts/toggleService.sh httpd.service
+interval = 1
+format-background = #81A1C1
+
 
 [module/arrow1]
 type = custom/text
 content = %{T5}%{T-}
+content-foreground = #81A1C1
+
+[module/arrow2]
+type = custom/text
+content = %{T5}%{T-}
 content-foreground = #81A1C1
