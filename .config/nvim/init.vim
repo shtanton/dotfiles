@@ -74,6 +74,9 @@ nnoremap <leader>w :ArgWrap<CR>
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><S-Tab> pumvisible() ? "\<c-p>" : "\<S-tab>"
+inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
 
 let g:user_emmet_leader_key='<C-K>'
 let g:user_emmet_settings = {
@@ -97,12 +100,20 @@ let g:UltiSnipsUsePythonVersion = 3
 
 let g:AutoPairsFlyMode = 1
 
-let g:ale_fixers = {}
-let g:ale_fixers['javascript'] = ['prettier']
+let g:ale_fixers = {
+			\'javascript': 'prettier',
+			\'typescript': 'prettier'
+\}
 let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
 
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources = {
+	\'javascript': 'LanguageClient',
+	\'javascript.jsx': 'LanguageClient',
+	\'typescript': 'LanguageClient',
+	\'vim': 'vim'
+	\}
 
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_settingsPath = $HOME . "/.config/nvim/languageSettings.json"

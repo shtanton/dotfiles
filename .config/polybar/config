@@ -2,7 +2,7 @@
 monitor = DP-2
 modules-center = date
 modules-left = bspwm arrow1 network
-modules-right = arrow2 mariadb httpd
+modules-right = pacman arrow2 mariadb httpd
 
 background = #2E3440
 
@@ -44,6 +44,10 @@ ws-icon-1 = Servers;
 ws-icon-2 = Vim;
 ws-icon-3 = Steam;
 ws-icon-4 = Chat;
+ws-icon-5 = Misc1;
+ws-icon-6 = Misc2;
+ws-icon-7 = Misc3;
+ws-icon-8 = Music;
 
 label = %icon%
 label-foreground = #FFFFFF
@@ -94,6 +98,13 @@ label = %{F%output%}
 click-left = /home/charlie/.scripts/toggleService.sh httpd.service
 interval = 1
 format-background = #81A1C1
+
+[module/pacman]
+type = custom/script
+exec = /home/charlie/.scripts/getUpdates.sh
+format-padding = 1
+label = %output% 
+interval = 600
 
 
 [module/arrow1]

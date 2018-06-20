@@ -8,8 +8,8 @@ killall -q sxhkd
 while pgrep -u $UID -x sxhkd >/dev/null; do sleep 1; done
 sxhkd &
 
-bspc monitor DP-0 -d Firefox Chat
-bspc monitor DP-2 -d Servers Vim Steam
+bspc monitor DP-0 -d Firefox Chat Misc3 Music
+bspc monitor DP-2 -d Servers Vim Steam Misc1 Misc2
 
 bspc config border_width         2
 bspc config window_gap          12
@@ -20,4 +20,4 @@ bspc config gapless_monocle      true
 
 bspc rule -a firefix desktop='^1'
 
-feh --bg-scale /home/charlie/Pictures/mountain.jpg
+/home/charlie/.scripts/setBackground.sh

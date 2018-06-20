@@ -82,7 +82,7 @@ super + {o,i}
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '{Firefox,Servers,Vim,Steam,Chat}'
+	bspc {desktop -f,node -d} '{Firefox,Servers,Vim,Steam,Chat,Misc1,Misc2,Misc3,Music}'
 
 #
 # preselect

@@ -1,3 +1,3 @@
-setxkbmap -layout gb -option ctrl:swapcaps
+setxkbmap -layout gb
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 exec bspwm
