@@ -12,20 +12,18 @@ else
 	" TIM POPE
 	call minpac#add('tpope/vim-surround', {})
 	call minpac#add('tpope/vim-repeat', {})
-	call minpac#add('tpope/vim-unimpaired', {'type': 'opt'})
-	call minpac#add('tpope/vim-abolish', {})
+	call minpac#add('tpope/vim-unimpaired', {})
+
+	call minpac#add ('easymotion/vim-easymotion', {})
 
 	" Languages
 	call minpac#add('neoclide/jsonc.vim', {})
 	call minpac#add('reasonml-editor/vim-reason-plus', {})
-	call minpac#add('neoclide/vim-jsx-improve', {})
 
 	call minpac#add('arcticicestudio/nord-vim', {})
 	call minpac#add('neoclide/coc.nvim', {'do': { -> coc#util#install() }})
-	call minpac#add('prettier/vim-prettier', {'do': 'yarn install'})
+
 	call minpac#add('Shougo/denite.nvim', {'type': 'opt'})
-	call minpac#add('easymotion/vim-easymotion', {})
-	call minpac#add('mattn/emmet-vim', {})
 
 	packadd vim-unimpaired
 	packadd denite.nvim
