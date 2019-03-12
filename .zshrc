@@ -12,7 +12,7 @@ compinit
 # End of lines added by compinstall
 
 export PS1="%d >>> "
-export PATH="$PATH:$(yarn global bin):$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+export PATH="$PATH:$(yarn global bin):$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$(opam config var bin)"
 export VISUAL="nvim"
 export XDG_CONFIG_HOME="$HOME/.config"
 eval $(opam config env)
