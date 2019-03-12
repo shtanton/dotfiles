@@ -1,49 +1,56 @@
-set nocompatible              " be iMproved, required
+set nocompatible
 
-if !has('nvim') && empty(glob('~/.vim/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+packadd minpac
+
+if !exists('*minpac#init')
+	colorscheme slate
+else
+	call minpac#init()
+
+	call minpac#add('k-takata/minpac', {'type': 'opt'})
+
+	" TIM POPE
+	call minpac#add('tpope/vim-surround', {})
+	call minpac#add('tpope/vim-repeat', {})
+	call minpac#add('tpope/vim-unimpaired', {'type': 'opt'})
+	call minpac#add('tpope/vim-abolish', {})
+
+	" Languages
+	call minpac#add('neoclide/jsonc.vim', {})
+	call minpac#add('reasonml-editor/vim-reason-plus', {})
+	call minpac#add('neoclide/vim-jsx-improve', {})
+
+	call minpac#add('arcticicestudio/nord-vim', {})
+	call minpac#add('neoclide/coc.nvim', {'do': { -> coc#util#install() }})
+	call minpac#add('prettier/vim-prettier', {'do': 'yarn install'})
+	call minpac#add('Shougo/denite.nvim', {'type': 'opt'})
+	call minpac#add('easymotion/vim-easymotion', {})
+	call minpac#add('mattn/emmet-vim', {})
+
+	packadd vim-unimpaired
+	packadd denite.nvim
+
+	" Replace grep with ag
+	call denite#custom#var('grep', 'command', ['ag'])
+	call denite#custom#var('grep', 'default_opts', ['-s', '--vimgrep'])
+	call denite#custom#var('grep', 'recursive_opts', [])
+	call denite#custom#var('grep', 'pattern_opt', [])
+	call denite#custom#var('grep', 'separator', ['--'])
+	call denite#custom#var('grep', 'final_opts', [])
+
+	" Ag for everything :D
+	call denite#custom#var('file', 'command',
+				\ ['fd', '-i', '-L', '-c', 'never', '-d', '1', '-t', 'file', ''])
+	call denite#custom#var('file/rec', 'command',
+				\ ['fd', '-i', '-L', '-c', 'never', '-t', 'file', ''])
+	call denite#custom#var('directory_rec', 'command',
+				\ ['fd', '-i', '-L', '-c', 'never', '-t', 'd', ''])
+
+	" Denite binds
+	call denite#custom#map('normal', 'V', '<denite:do_action:vsplit>')
+
+	colorscheme nord
 endif
-if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-	silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'vim-scripts/L9'
-Plug 'tpope/vim-surround'
-Plug 'mattn/emmet-vim'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-fugitive'
-Plug 'easymotion/vim-easymotion'
-Plug 'elzr/vim-json'
-Plug 'scrooloose/nerdcommenter'
-Plug 'FooSoft/vim-argwrap'
-Plug 'tpope/vim-abolish'
-Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
-Plug 'gregsexton/gitv'
-Plug 'jiangmiao/auto-pairs'
-Plug 'w0rp/ale'
-Plug 'arcticicestudio/nord-vim'
-Plug 'autozimu/LanguageClient-neovim', {
-			\ 'branch': 'next',
-			\ 'do': 'bash install.sh',
-			\ }
-
-Plug 'roxma/vim-hug-neovim-rpc', !has('nvim') ? {} : { 'on': [] }
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'reasonml-editor/vim-reason-plus'
-Plug 'leafgarland/typescript-vim'
-
-call plug#end()
 
 set hidden
 set tabstop=2
@@ -53,74 +60,70 @@ set backspace=2
 set relativenumber
 set cursorline
 filetype plugin indent on
+syntax on
 set incsearch
 set showcmd
 set laststatus=2
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tagbar#enabled = 0
 set noswapfile
 set ai
 set si
 set listchars=tab:\|\ 
 set list
-colorscheme nord
-autocmd BufRead,BufNewFile _oasis set expandtab
+set cmdheight=2
+set directory=$HOME/.vim/swapfiles//
 
+let g:python3_host_prog="/usr/bin/python"
+let g:AutoPairsFlyMode=1
+let g:prettier#autoformat=0
+let g:prettier#quickfix_enabled=0
+let g:user_emmet_leader_key='<M-e>'
+let g:user_emmet_settings = {
+		\'javascript': {
+			\'extends': 'jsx'
+		\}
+	\}
+let $GIT_EDITOR = 'nvr -cc split --remote-wait'
+
+" All da binds
 nnoremap <c-e> 5<c-e>
 nnoremap <c-y> 5<c-y>
-let mapleader = " "
 nnoremap 0 ^
-nnoremap <leader>w :ArgWrap<CR>
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><S-Tab> pumvisible() ? "\<c-p>" : "\<S-tab>"
-inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+tnoremap <ESC> <C-\><C-n>
+nnoremap <silent> <m-a> :tabprevious<CR>
+nnoremap <silent> <m-d> :tabnext<CR>
+nnoremap <m-h> <c-w>h
+nnoremap <m-l> <c-w>l
+nnoremap <m-j> <c-w>j
+nnoremap <m-k> <c-w>k
+nnoremap <m-H> <c-w>H
+nnoremap <m-L> <c-w>L
+nnoremap <m-J> <c-w>J
+nnoremap <m-K> <c-w>K
+nnoremap <m-z> <c-w>z
+nnoremap <silent> <m-f> :call focus#toggle()<CR>
+" Leader key stuff
+let mapleader = ";"
+nnoremap <space> ;
+" coc.nvim
+nnoremap <silent> K :call CocAction("doHover")<CR>
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+nmap <leader>c <Plug>(coc-rename)
+nnoremap <silent> <leader>s :Denite coc-symbols<CR>
+" denite
+nnoremap <silent> <leader>b :Denite buffer<CR>
+nnoremap <silent> - :Denite file/rec<CR>
+nnoremap <silent> + :Denite -default-action=touch directory<CR>
+" tig
+nnoremap <silent> <leader>t :te tig status<CR>
+" easymotion
+map <leader>w <Plug>(easymotion-bd-w)
+map <leader>f <Plug>(easymotion-bd-f)
+map <leader>j <Plug>(easymotion-bd-jk)
+map <leader>e <Plug>(easymotion-bd-e)
 
-let g:user_emmet_leader_key='<C-K>'
-let g:user_emmet_settings = {
-			\	'indentation' : '  ',
-			\	'javascript.jsx': {
-			\		'extends': 'jsx',
-			\	},
-			\	'html': {
-			\		'inline_elements': '',
-			\	},
-			\}
-
-let g:jsx_ext_required = 0
-
-let g:UltiSnipsExpandTrigger = '<c-f>'
-let g:UltiSnipsJumpForwardTrigger = '<c-f>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-b>'
-let g:UltiSnipsSnippetsDir = $HOME . '/.config/nvim/UltiSnips'
-let g:UltiSnipsSnippetDirectories = [g:UltiSnipsSnippetsDir]
-let g:UltiSnipsUsePythonVersion = 3
-
-let g:AutoPairsFlyMode = 1
-
-let g:ale_fixers = {
-			\'javascript': 'prettier',
-			\'typescript': 'prettier'
-\}
-let g:ale_fix_on_save = 1
-let g:ale_javascript_prettier_use_local_config = 1
-
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources = {
-	\'javascript': 'LanguageClient',
-	\'javascript.jsx': 'LanguageClient',
-	\'typescript': 'LanguageClient',
-	\'vim': 'vim'
-	\}
-
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_settingsPath = $HOME . "/.config/nvim/languageSettings.json"
-let g:LanguageClient_serverCommands = {
-	\'reason': ['ocaml-language-server', '--stdio'],
-	\'ocaml': ['ocaml-language-server', '--stdio'],
-	\'javascript': ['javascript-typescript-stdio'],
-	\'javascript.jsx': ['javascript-typescript-stdio'],
-	\'typescript': ['javascript-typescript-stdio'],
-	\}
+augroup prettier
+	autocmd! BufWritePre *.js Prettier
+	autocmd! BufWritePre *.re call CocAction("format")
+augroup END
