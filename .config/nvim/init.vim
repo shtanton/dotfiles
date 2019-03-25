@@ -114,7 +114,7 @@ nnoremap <silent> <leader>b :Denite buffer<CR>
 nnoremap <silent> - :Denite file/rec<CR>
 nnoremap <silent> + :Denite -default-action=touch directory<CR>
 " tig
-nnoremap <silent> <leader>t :te tig status<CR>
+nnoremap <silent> <leader>t <C-w>v:te tig status<CR>i
 " easymotion
 map <leader>w <Plug>(easymotion-bd-w)
 map <leader>f <Plug>(easymotion-bd-f)
