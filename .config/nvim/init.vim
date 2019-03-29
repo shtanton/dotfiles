@@ -99,6 +99,7 @@ nnoremap <m-J> <c-w>J
 nnoremap <m-K> <c-w>K
 nnoremap <m-z> <c-w>z
 nnoremap <silent> <m-f> :call focus#toggle()<CR>
+command WQ mksession! | qall
 " Leader key stuff
 let mapleader = ";"
 nnoremap <space> ;
