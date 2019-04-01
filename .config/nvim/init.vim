@@ -15,6 +15,7 @@ else
 	call minpac#add('tpope/vim-unimpaired', {})
 
 	call minpac#add ('easymotion/vim-easymotion', {})
+	call minpac#add('mattn/emmet-vim', {})
 
 	" Languages
 	call minpac#add('neoclide/jsonc.vim', {})
@@ -122,6 +123,5 @@ map <leader>j <Plug>(easymotion-bd-jk)
 map <leader>e <Plug>(easymotion-bd-e)
 
 augroup prettier
-	autocmd! BufWritePre *.js Prettier
 	autocmd! BufWritePre *.re call CocAction("format")
 augroup END
