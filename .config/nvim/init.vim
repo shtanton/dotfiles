@@ -20,6 +20,7 @@ else
 	" Languages
 	call minpac#add('neoclide/jsonc.vim', {})
 	call minpac#add('reasonml-editor/vim-reason-plus', {})
+	call minpac#add('leafgarland/typescript-vim', {})
 
 	call minpac#add('arcticicestudio/nord-vim', {})
 	call minpac#add('neoclide/coc.nvim', {'do': { -> coc#util#install() }})
@@ -39,11 +40,11 @@ else
 
 	" Ag for everything :D
 	call denite#custom#var('file', 'command',
-				\ ['fd', '-i', '-L', '-c', 'never', '-d', '1', '-t', 'file', ''])
+				\ ['fd', '-i', '-L', '-c', 'never', '-d', '1', '-t', 'file', '-H', ''])
 	call denite#custom#var('file/rec', 'command',
-				\ ['fd', '-i', '-L', '-c', 'never', '-t', 'file', ''])
+				\ ['fd', '-i', '-L', '-c', 'never', '-t', 'file', '-H', ''])
 	call denite#custom#var('directory_rec', 'command',
-				\ ['fd', '-i', '-L', '-c', 'never', '-t', 'd', ''])
+				\ ['fd', '-i', '-L', '-c', 'never', '-t', 'd', '-H', ''])
 
 	" Denite binds
 	call denite#custom#map('normal', 'V', '<denite:do_action:vsplit>')
@@ -100,6 +101,7 @@ nnoremap <m-J> <c-w>J
 nnoremap <m-K> <c-w>K
 nnoremap <m-z> <c-w>z
 nnoremap <silent> <m-f> :call focus#toggle()<CR>
+command! WQ mksession! | qall
 " Leader key stuff
 let mapleader = ";"
 nnoremap <space> ;
