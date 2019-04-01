@@ -19,6 +19,7 @@ else
 	" Languages
 	call minpac#add('neoclide/jsonc.vim', {})
 	call minpac#add('reasonml-editor/vim-reason-plus', {})
+	call minpac#add('leafgarland/typescript-vim', {})
 
 	call minpac#add('arcticicestudio/nord-vim', {})
 	call minpac#add('neoclide/coc.nvim', {'do': { -> coc#util#install() }})
@@ -99,7 +100,7 @@ nnoremap <m-J> <c-w>J
 nnoremap <m-K> <c-w>K
 nnoremap <m-z> <c-w>z
 nnoremap <silent> <m-f> :call focus#toggle()<CR>
-command WQ mksession! | qall
+command! WQ mksession! | qall
 " Leader key stuff
 let mapleader = ";"
 nnoremap <space> ;
