@@ -1,0 +1,54 @@
+add-highlighter global/ number-lines -relative
+set-option global tabstop 2
+set-option global indentwidth 0
+set-option global aligntab true
+set-option global autoreload true
+set-option global toolsclient tools
+colorscheme gruvbox
+
+eval %sh{kak-lsp --kakoune -s $kak_session}
+hook global WinSetOption filetype=(typescript|javascript|rust) %{
+	lsp-enable-window
+}
+
+declare-user-mode surround
+
+map -docstring 'Show info on selected symbol' global user h ': lsp-hover<ret>'
+map -docstring 'Switch buffers' global user b ': b '
+map -docstring 'Access LSP commands' global user l ': enter-user-mode lsp<ret>'
+map -docstring 'Surround selection' global user s ': enter-user-mode surround<ret>'
+map -docstring 'Desurround selection' global user d '<c-s><a-S>d<c-o><a-:>H'
+
+map global insert <c-w> '<a-;>b<a-;>d'
+map global normal <a-h> ';Gi'
+map global normal X 'gi<a-l>'
+map global normal <plus> ': newfile '
+map global normal <minus> ': fuzzy-edit '
+map global surround b '<a-:>a)<esc>Hi(<esc>'
+map global surround B '<a-:>a}<esc>Hi{<esc>'
+map global surround r '<a-:>a]<esc>Hi[<esc>'
+map global surround a '<a-:>a<gt><esc>Hi<lt><esc>'
+map global surround Q '<a-:>a"<esc>Hi"<esc>'
+map global surround q "<a-:>a'<esc>Hi'<esc>"
+map global surround g '<a-:>a`<esc>Hi`<esc>'
+
+hook global InsertCompletionShow .* %{
+	map window insert <tab> <c-n>
+	map window insert <s-tab> <c-p>
+}
+hook global InsertCompletionHide .* %{
+	map window insert <tab> <tab>
+	map window insert <s-tab> <s-tab>
+}
+hook global WinSetOption filetype=rust %{
+	map -docstring 'Custom formatter' window lsp f ': nop %sh{ rustfmt $kak_buffile }<ret>'
+}
+
+define-command -menu -params 1 -shell-script-candidates 'fd -t d -H' newfile %{
+	prompt -init %sh{echo $1/} 'filename: ' %{
+		edit %val{text}
+	}
+}
+define-command -menu -params 1 -shell-script-candidates 'fd -t f -H' fuzzy-edit %{
+	edit %sh{echo $1}
+}
