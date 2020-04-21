@@ -7,7 +7,7 @@ set-option global toolsclient tools
 colorscheme gruvbox
 
 eval %sh{kak-lsp --kakoune -s $kak_session}
-hook global WinSetOption filetype=(typescript|javascript|rust) %{
+hook global WinSetOption filetype=(typescript|rust) %{
 	lsp-enable-window
 }
 
@@ -42,6 +42,11 @@ hook global InsertCompletionHide .* %{
 }
 hook global WinSetOption filetype=rust %{
 	map -docstring 'Custom formatter' window lsp f ': nop %sh{ rustfmt $kak_buffile }<ret>'
+	map window normal <a-s> ':eval select %sh{~/scripts/kak-rust select_children "$kak_selections_desc" "$kak_quoted_selections"}<ret>'
+	map window normal e '"zZ%:eval select %sh{~/scripts/kak-rust select_next_expr "$kak_reg_z" "$kak_selection"}<ret>'
+}
+hook global BufCreate .* %{
+	alias buffer terminal x11-terminal
 }
 
 define-command -menu -params 1 -shell-script-candidates 'fd -t d -H' newfile %{
