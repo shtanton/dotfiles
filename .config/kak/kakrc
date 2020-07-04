@@ -1,13 +1,15 @@
 add-highlighter global/ number-lines -relative
+add-highlighter global/ show-matching
+
 set-option global tabstop 2
-set-option global indentwidth 0
 set-option global aligntab true
 set-option global autoreload true
 set-option global toolsclient tools
+set-option global grepcmd 'rg --column'
 colorscheme gruvbox
 
 eval %sh{kak-lsp --kakoune -s $kak_session}
-hook global WinSetOption filetype=(typescript|rust) %{
+hook global WinSetOption filetype=(rust) %{
 	lsp-enable-window
 }
 
@@ -32,6 +34,8 @@ map global surround Q '<a-:>a"<esc>Hi"<esc>'
 map global surround q "<a-:>a'<esc>Hi'<esc>"
 map global surround g '<a-:>a`<esc>Hi`<esc>'
 
+hook global WinCreate ^[^*]+$ %{editorconfig-load}
+hook global WinSetOption filetype=(rust|zig) expandtab
 hook global InsertCompletionShow .* %{
 	map window insert <tab> <c-n>
 	map window insert <s-tab> <c-p>
@@ -39,11 +43,6 @@ hook global InsertCompletionShow .* %{
 hook global InsertCompletionHide .* %{
 	map window insert <tab> <tab>
 	map window insert <s-tab> <s-tab>
-}
-hook global WinSetOption filetype=rust %{
-	map -docstring 'Custom formatter' window lsp f ': nop %sh{ rustfmt $kak_buffile }<ret>'
-	map window normal <a-s> ':eval select %sh{~/scripts/kak-rust select_children "$kak_selections_desc" "$kak_quoted_selections"}<ret>'
-	map window normal e '"zZ%:eval select %sh{~/scripts/kak-rust select_next_expr "$kak_reg_z" "$kak_selection"}<ret>'
 }
 hook global BufCreate .* %{
 	alias buffer terminal x11-terminal

@@ -1,0 +1,227 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+focus_follows_mouse no
+
+#xwayland disable
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term alacritty
+
+output * background #282828 solid_color
+
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Idle configuration
+#
+# Example configuration:
+#
+#exec swayidle -w \
+         #timeout 300 'swaylock -f -c 000000' \
+         #timeout 600 'swaymsg "output * dpms off"' \
+              #resume 'swaymsg "output * dpms on"' \
+         #before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+input * xkb_layout "gb,us"
+
+### Key bindings
+#
+# Basics:
+#
+
+		# Screenshot
+		bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+
+		default_border pixel 2
+
+    client.focused #D79921 #D79921 #EBDBB2 #D79921 #D79921
+    client.focused_inactive #928374 #928374 #EBDBB2 #928374 #928374
+    client.unfocused #282828 #282828 #EBDBB2 #282828 #282828
+    client.urgent #CC241D #CC241D #EBDBB2 #CC241D #CC241D
+
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+2 kill
+
+    # Start your launcher
+    bindsym $mod+space exec dmenu-wl_run -i
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+z exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$down focus right
+    bindsym $mod+$up focus left
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$down move right
+    bindsym $mod+Shift+$up move left
+#
+# Workspaces:
+#
+    # Switch to workspace
+    bindsym $mod+q workspace web
+    bindsym $mod+w workspace fish
+    bindsym $mod+e workspace code
+    bindsym $mod+r workspace social
+    bindsym $mod+t workspace misc1
+    bindsym $mod+y workspace misc2
+    bindsym $mod+u workspace misc3
+    bindsym $mod+i workspace misc4
+    bindsym $mod+o workspace misc5
+    bindsym $mod+p workspace misc6
+    # Move focused container to workspace
+    bindsym $mod+Shift+q move container to workspace web
+    bindsym $mod+Shift+w move container to workspace fish
+    bindsym $mod+Shift+e move container to workspace code
+    bindsym $mod+Shift+r move container to workspace social
+    bindsym $mod+Shift+t move container to workspace misc1
+    bindsym $mod+Shift+y move container to workspace misc2
+    bindsym $mod+Shift+u move container to workspace misc3
+    bindsym $mod+Shift+i move container to workspace misc4
+    bindsym $mod+Shift+o move container to workspace misc5
+    bindsym $mod+Shift+p move container to workspace misc6
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    #bindsym $mod+b splith
+    #bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+z layout toggle splith tabbed
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+x floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    #bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    #bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+l scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+#bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position bottom
+    mode hide
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 5; done
+
+    colors {
+        statusline #EBDBB2
+        background #282828
+        separator #FF00FF
+        focused_workspace #D79921 #D79921 #EBDBB2
+        active_workspace #928374 #928374 #EBDBB2
+        inactive_workspace #282828 #282828 #EBDBB2
+        urgent_workspace #CC241D #CC241D #EBDBB2
+    }
+}
+
+include /etc/sway/config.d/*
