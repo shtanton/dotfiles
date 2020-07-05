@@ -212,7 +212,7 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 5; done
+    status_command while /home/charlie/dotfiles/scripts/swaybar_command.py; do sleep 5; done
 
     colors {
         statusline #EBDBB2
