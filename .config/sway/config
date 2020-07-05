@@ -19,6 +19,7 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term alacritty
+set $launch /home/charlie/dotfiles/scripts/launch.py
 
 output * background #282828 solid_color
 
@@ -90,7 +91,7 @@ input * xkb_layout "gb,us"
     bindsym $mod+Shift+2 kill
 
     # Start your launcher
-    bindsym $mod+space exec dmenu-wl_run -i
+    bindsym $mod+space exec $launch
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
